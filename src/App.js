@@ -35,10 +35,10 @@ const App = () => {
     setHasExtended(false); // Cho phép dùng lại Extension sau khi stop
   };
 
-  // Thêm 45 giây
+  // Thêm 30 giây
   const extendTime = () => {
     if (!hasExtended) {
-      setTime((prevTime) => prevTime + 45);
+      setTime((prevTime) => prevTime + 30);
       setHasExtended(true); // Đánh dấu đã sử dụng Extension
     }
   };
@@ -103,7 +103,7 @@ const App = () => {
             onClick={extendTime}
             disabled={hasExtended}
           >
-            Extension +45s
+            Extension +30s
           </button>
         </div>
         <button onClick={toggleFullScreen} className="mt-4">
