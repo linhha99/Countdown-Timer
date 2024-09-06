@@ -1,12 +1,32 @@
 import React, { useState, useEffect, useRef } from "react";
 
 const App = () => {
-  const [time, setTime] = useState(30); // Thời gian ban đầu là 30 giây
+  const TIME_DEFAULT = 30;
+  const [time, setTime] = useState(TIME_DEFAULT); // Thời gian ban đầu là 30 giây
   const [isRunning, setIsRunning] = useState(false);
   const [hasExtended, setHasExtended] = useState(false); // Thêm state để theo dõi việc đã sử dụng Extension
-  const [isPlaying, setIsPlaying] = useState(false);
   const timerRef = useRef(null);
   const containerRef = useRef(null);
+  const audioRef = useRef(null);
+
+  useEffect(() => {
+    if (time === 0) {
+      setIsRunning(false);
+      setTime(TIME_DEFAULT); // Reset thời gian về 30 giây
+      clearInterval(timerRef.current);
+      setHasExtended(false);
+    }
+  }, [time]);
+
+  useEffect(() => {
+    if (time === 10) {
+      if (audioRef.current) {
+        audioRef.current
+          .play()
+          .catch((error) => console.error("Failed to play audio:", error));
+      }
+    }
+  }, [time]);
 
   // Bắt đầu đếm ngược
   const startTimer = () => {
@@ -24,6 +44,9 @@ const App = () => {
       clearInterval(timerRef.current);
       setIsRunning(false);
     }
+    if (audioRef.current) {
+      audioRef.current.pause();
+    }
   };
 
   // Dừng và reset
@@ -32,8 +55,13 @@ const App = () => {
       clearInterval(timerRef.current);
     }
     setIsRunning(false);
-    setTime(30); // Reset thời gian về 30 giây
+    setTime(TIME_DEFAULT); // Reset thời gian về 30 giây
     setHasExtended(false); // Cho phép dùng lại Extension sau khi stop
+
+    if (audioRef.current) {
+      audioRef.current.pause(); // Tạm dừng âm thanh
+      audioRef.current.currentTime = 0; // Đặt lại thời gian âm thanh
+    }
   };
 
   // Thêm 30 giây
@@ -41,6 +69,11 @@ const App = () => {
     if (!hasExtended) {
       setTime((prevTime) => prevTime + 30);
       setHasExtended(true); // Đánh dấu đã sử dụng Extension
+
+      if (audioRef.current) {
+        audioRef.current.pause(); // Tạm dừng âm thanh
+        audioRef.current.currentTime = 0; // Đặt lại thời gian âm thanh
+      }
     }
   };
 
@@ -58,15 +91,6 @@ const App = () => {
       }
     }
   };
-
-  useEffect(() => {
-    // Phát âm thanh khi còn 10 giây
-    if (time === 10 && !isPlaying) {
-      const audio = new Audio("/assets/10sec.mp3");
-      audio.play();
-      setIsPlaying(true); // Để tránh phát âm thanh nhiều lần
-    }
-  }, [time, isPlaying]);
 
   return (
     <div
@@ -120,6 +144,8 @@ const App = () => {
           Full Screen
         </button>
       </div>
+
+      <audio ref={audioRef} src="/assets/10sec.mp3" />
     </div>
   );
 };

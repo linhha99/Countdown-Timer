@@ -51,7 +51,7 @@ code {
     );
   
   border: solid 5px transparent;
-  border-radius: 1em;
+  border-radius: 30px;
   --gradient-border: conic-gradient(from var(--border-angle), transparent 25%, #08f, #f03 99%, transparent);
   
   background: 
@@ -127,4 +127,8 @@ code {
   font-size: 28px;
   font-weight: 700;
   margin-right: 20px;
+}
+
+.container:fullscreen button:last-child {
+  margin-right: 0;
 }
