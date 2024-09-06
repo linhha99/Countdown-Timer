@@ -4,6 +4,7 @@ const App = () => {
   const [time, setTime] = useState(30); // Thời gian ban đầu là 30 giây
   const [isRunning, setIsRunning] = useState(false);
   const [hasExtended, setHasExtended] = useState(false); // Thêm state để theo dõi việc đã sử dụng Extension
+  const [isPlaying, setIsPlaying] = useState(false);
   const timerRef = useRef(null);
   const containerRef = useRef(null);
 
@@ -57,6 +58,15 @@ const App = () => {
       }
     }
   };
+
+  useEffect(() => {
+    // Phát âm thanh khi còn 10 giây
+    if (time === 10 && !isPlaying) {
+      const audio = new Audio("/assets/10sec.mp3");
+      audio.play();
+      setIsPlaying(true); // Để tránh phát âm thanh nhiều lần
+    }
+  }, [time, isPlaying]);
 
   return (
     <div
