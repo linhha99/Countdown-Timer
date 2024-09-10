@@ -28,6 +28,37 @@ const App = () => {
     }
   }, [time]);
 
+  // Bắt sự kiện bàn phím
+  useEffect(() => {
+    const handleKeyDown = (event) => {
+      switch (event.key) {
+        case "1":
+          startTimer();
+          break;
+        case "2":
+          stopTimer();
+          break;
+        case "3":
+          pauseTimer();
+          break;
+        case "4":
+          extendTime();
+          break;
+        default:
+          break;
+      }
+    };
+
+    // Lắng nghe sự kiện khi nhấn phím
+    window.addEventListener("keydown", handleKeyDown);
+
+    // Cleanup sự kiện khi component unmount
+    return () => {
+      window.removeEventListener("keydown", handleKeyDown);
+    };
+    // eslint-disable-next-line
+  }, [isRunning, hasExtended]);
+
   // Bắt đầu đếm ngược
   const startTimer = () => {
     if (!isRunning) {
@@ -101,7 +132,7 @@ const App = () => {
         ref={containerRef}
         className="text-center container box-shadow bg-white rounded"
       >
-        <h1 className="mb-4">Countdown Timer</h1>
+        <h1 className="mb-4 fs-1">Countdown Timer</h1>
 
         <div
           className="time-box"
@@ -140,7 +171,7 @@ const App = () => {
             Extension +30s
           </button>
         </div>
-        <button onClick={toggleFullScreen} className="mt-4">
+        <button onClick={toggleFullScreen} className="mt-5">
           Full Screen
         </button>
       </div>

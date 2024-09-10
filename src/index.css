@@ -27,12 +27,12 @@ code {
   height: 55px;
   font-weight: 700;
   margin-right: 20px;
+  transition: .2s ease-in;
 }
 
 .time-box {
   width: 600px;
   height: 200px;
-  /* margin: auto; */
   margin-bottom: 50px;
   font-size: 60px;
   font-weight: 700;
@@ -115,20 +115,29 @@ code {
 }
 
 .container:fullscreen .time-box  {
-  width: 75%;
-  height: 300px;
-  font-size: 100px;
+  width: 92%;
+  height: 480px;
+  font-size: 390px;
+  line-height: 390px;
   border-radius: 30px;
 }
 
 .container:fullscreen button {
-  width: 250px;
-  height: 80px;
+  width: 280px;
+  height: 90px;
   font-size: 28px;
   font-weight: 700;
-  margin-right: 20px;
+  margin-right: 30px;
 }
 
 .container:fullscreen button:last-child {
   margin-right: 0;
+}
+
+.btn:disabled {
+  cursor: not-allowed !important;
+  background-color: rgba(0, 0, 0, 0.04) !important;
+  border-color: #1a1717 !important;
+  color: #000 !important;
+  pointer-events: inherit;
 }
